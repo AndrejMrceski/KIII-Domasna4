@@ -4,12 +4,12 @@ node {
         checkout scm
     }
     stage('Build image') {
-       app = docker.build("AndrejMrceski/kiii-domasna4".toLowerCase())
+       app = docker.build("mrceski/kiii-domasna4")
     }
     stage('Push image') {   
         docker.withRegistry('https://registry.hub.docker.com', 'am-dockerhub') {
-            app.push("mrceski/kiii-domasna4-${env.BUILD_NUMBER}")
-            app.push("mrceski/kiii-domasna4-latest")
+            app.push("${env.BRANCH_NAME}-${env.BUILD_NUMBER}")
+            app.push("${env.BRANCH_NAME}-latest")
             // signal the orchestrator that there is a new version
         }
     }
